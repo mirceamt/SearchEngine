@@ -35,6 +35,9 @@ out/
 #libs
 libs/
 
+#indexInfo
+indexInfo/
+
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
