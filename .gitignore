@@ -32,6 +32,9 @@ cmake-build-release/
 # IntelliJ
 out/
 
+#libs
+libs/
+
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
