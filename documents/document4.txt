@@ -1,0 +1,15 @@
+﻿o căruță și o rablă
+
+presupun ca primele 10 cuvinte formeaza abstract si sunt mai importante decat restul
+un cuvant va conta de 3 ori mai mult daca e in abstract la scorul rezultatelor
+
+iau un document mai mare de 10 cuvinte si il duplic
+
+iau un cuvant care nu apare nicaieri de exemplu: blabla
+si il pun la primul in abstract si la al doilea ca ultimul cuvant.
+
+cand caut doar blabla o sa gasaesc primul document cu un scor de aproximativ 3 ori mai mare decat al 2lea
+si asta e testul care trebuie sa treaca
+
+
+
