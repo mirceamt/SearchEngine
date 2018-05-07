@@ -110,15 +110,47 @@ public class RomanianIndexer {
         // abstract = first 10 words
         int spacePos = s.indexOf(' ');
         if (spacePos == -1)
+            spacePos = s.indexOf('\n');
+        if (spacePos == -1)
+            spacePos = s.indexOf('\t');
+        if (spacePos == -1)
+            spacePos = s.indexOf('\r');
+        if (spacePos == -1)
             return s;
+
         for (int i = 0; i < 9; ++i)
         {
-            if (spacePos + 1 == s.length())
+            if (spacePos + 1 >= s.length())
                 return s;
 
-            spacePos = s.indexOf(' ', spacePos + 1);
-            if (spacePos == -1)
+            int newSpacePos1 = s.indexOf(' ', spacePos + 1);
+            int newSpacePos2 = s.indexOf('\n', spacePos + 1);
+            int newSpacePos3 = s.indexOf('\t', spacePos + 1);
+            int newSpacePos4 = s.indexOf('\r', spacePos + 1);
+
+            while (newSpacePos1 == spacePos + 1 || newSpacePos2 == spacePos + 1 || newSpacePos3 == spacePos + 1 || newSpacePos4 == spacePos + 4)
+            {
+                spacePos++;
+                newSpacePos1 = s.indexOf(' ', spacePos + 1);
+                newSpacePos2 = s.indexOf('\n', spacePos + 1);
+                newSpacePos3 = s.indexOf('\t', spacePos + 1);
+                newSpacePos4 = s.indexOf('\r', spacePos + 1);
+            }
+
+            if (newSpacePos1 == -1 && newSpacePos2 == -1 && newSpacePos3 == -1 && newSpacePos4 == -1)
                 return s;
+
+            if (newSpacePos1 == -1)
+                newSpacePos1 = s.length() + 1;
+            if (newSpacePos2 == -1)
+                newSpacePos2 = s.length() + 1;
+            if (newSpacePos3 == -1)
+                newSpacePos3 = s.length() + 1;
+            if (newSpacePos4 == -1)
+                newSpacePos4 = s.length() + 1;
+
+            spacePos = Math.min (Math.min(newSpacePos1, newSpacePos2), Math.min(newSpacePos3, newSpacePos4)) + 1;
+
         }
         return s.substring(0, spacePos);
     }
