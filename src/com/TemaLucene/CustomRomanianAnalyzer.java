@@ -16,6 +16,7 @@ import org.apache.lucene.analysis.standard.StandardFilter;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttributeImpl;
+import org.apache.lucene.search.BoostAttribute;
 import org.tartarus.snowball.ext.RomanianStemmer;
 
 import java.io.*;
@@ -82,6 +83,7 @@ public class CustomRomanianAnalyzer extends StopwordAnalyzerBase {
             auxTokenStream = new ASCIIFoldingFilter(auxTokenStream);
 
             CharTermAttribute termGetter = auxTokenStream.addAttribute(CharTermAttribute.class);
+
             auxTokenStream.reset();
 
             String normalizedFile = "";

@@ -17,6 +17,7 @@ import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.index.FieldInvertState;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.search.similarities.Similarity;
@@ -83,10 +84,16 @@ public class RomanianIndexer {
     private void IndexFile(File f, IndexWriter indexWriter) throws IOException, TikaException {
 
         Document doc = new Document();
+        TextField x = new TextField("abstract", "asd", Field.Store.YES);
+
         doc.add(new StringField("name", f.getName(), Field.Store.YES));
         doc.add(new StringField("path", f.getAbsolutePath(), Field.Store.YES));
         doc.add(new StringField("date", new Date(f.lastModified()).toString(), Field.Store.YES));
-        doc.add(new TextField("content", GetContent(f), Field.Store.YES));
+        String content =  GetContent(f);
+        String abstractContent = ExtractAbstractContent(content);
+        doc.add(new TextField("content", content, Field.Store.YES));
+        doc.add(new TextField("abstract", abstractContent, Field.Store.YES));
+
         indexWriter.addDocument(doc);
         Logger.getGlobal().log(Level.INFO, "Indexed document: " + f.getAbsolutePath());
     }
@@ -96,6 +103,24 @@ public class RomanianIndexer {
         Tika tika = new Tika();
         ret = tika.parseToString(f);
         return ret;
+    }
+
+    private String ExtractAbstractContent(String s)
+    {
+        // abstract = first 10 words
+        int spacePos = s.indexOf(' ');
+        if (spacePos == -1)
+            return s;
+        for (int i = 0; i < 9; ++i)
+        {
+            if (spacePos + 1 == s.length())
+                return s;
+
+            spacePos = s.indexOf(' ', spacePos + 1);
+            if (spacePos == -1)
+                return s;
+        }
+        return s.substring(0, spacePos);
     }
 
     private boolean IsAcceptableFile(File f)
