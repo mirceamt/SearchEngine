@@ -49,16 +49,19 @@ public class RomanianSearcher
         Directory dir = FSDirectory.open(Paths.get(m_indexSaveDirectory));
         m_indexReader = DirectoryReader.open(dir);
         m_indexSearcher = new IndexSearcher(m_indexReader);
+
+        m_indexSearcher.setSimilarity(new CustomSimilarity());
         //m_queryParser = new QueryParser("content", new CustomRomanianAnalyzer());
         String[] fields = new String[2];
         fields[0] = "abstract";
         fields[1] = "content";
 
-        Map<String, Float> boosts = new HashMap<>();
-        boosts.put("abstract", 2.0f);
-        boosts.put("content", 1.0f);
+//        Map<String, Float> boosts = new HashMap<>();
+//        boosts.put("abstract", 2.0f);
+//        boosts.put("content", 1.0f);
 
-        m_queryParser = new MultiFieldQueryParser(fields, new CustomRomanianAnalyzer(), boosts);
+//        m_queryParser = new MultiFieldQueryParser(fields, new CustomRomanianAnalyzer(), boosts);
+        m_queryParser = new MultiFieldQueryParser(fields, new CustomRomanianAnalyzer());
     }
 
     public TopDocs DoQuery(String queryString) throws ParseException, IOException {
