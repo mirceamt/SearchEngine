@@ -91,6 +91,8 @@ public class RomanianIndexer {
         doc.add(new StringField("date", new Date(f.lastModified()).toString(), Field.Store.YES));
         String content =  GetContent(f);
         String abstractContent = ExtractAbstractContent(content);
+        content = content.substring(abstractContent.length());
+
         doc.add(new TextField("content", content, Field.Store.YES));
         doc.add(new TextField("abstract", abstractContent, Field.Store.YES));
 
@@ -107,6 +109,17 @@ public class RomanianIndexer {
 
     private String ExtractAbstractContent(String s)
     {
+        String[] tokens = s.split("\\s+");
+        int startIndex = 0;
+        for (int i = 0; i < Math.min(10, tokens.length); ++i)
+        {
+            startIndex = s.indexOf(tokens[i], startIndex) + tokens[i].length();
+        }
+        if (startIndex >= s.length())
+        {
+            startIndex = s.length();
+        }
+        //return s.substring(0, startIndex);
         // abstract = first 10 words
         int spacePos = s.indexOf(' ');
         if (spacePos == -1)

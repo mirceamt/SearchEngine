@@ -50,7 +50,8 @@ public class RomanianSearcher
         m_indexReader = DirectoryReader.open(dir);
         m_indexSearcher = new IndexSearcher(m_indexReader);
 
-        m_indexSearcher.setSimilarity(new CustomSimilarity());
+        //m_indexSearcher.setSimilarity(new CustomSimilarity());
+        m_indexSearcher.setSimilarity(new BM25ModifiedSimilarity());
         //m_queryParser = new QueryParser("content", new CustomRomanianAnalyzer());
         String[] fields = new String[2];
         fields[0] = "abstract";
