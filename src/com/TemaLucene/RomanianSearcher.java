@@ -58,9 +58,9 @@ public class RomanianSearcher
         fields[1] = "content";
 
 //        Map<String, Float> boosts = new HashMap<>();
-//        boosts.put("abstract", 2.0f);
+//        boosts.put("abstract", 3.0f);
 //        boosts.put("content", 1.0f);
-
+//
 //        m_queryParser = new MultiFieldQueryParser(fields, new CustomRomanianAnalyzer(), boosts);
         m_queryParser = new MultiFieldQueryParser(fields, new CustomRomanianAnalyzer());
     }
