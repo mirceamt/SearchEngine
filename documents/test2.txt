@@ -2,3 +2,15 @@
 
 aici este contentul, care are cuvinte cu diacritice și fără.
 un cal si o căruță și o bărcută blabla
+
+highlighter
+
+pentru fiecare document gasit
+pun dedesubt un fragment care explica de ce a fost gasit
+
+marchez cate o singura aparitie
+si cel mai bun context
+bun inseamna ca termenii pe care ii am se gasesc la o distanta cat mai mica posibila
+
+pentur un rezultat gasit afisez cel mai relevant context
+relevant e daca apar cat mai multe cuvinte, si in caz ca sunt mai multe il afisez pe ala unde cuvintele sunt mai apropiate
