@@ -559,6 +559,14 @@ public class RelevantContextTool {
                                     }
                                 }
                             }
+                            else
+                            {
+                                auxContext = new Context(cloneDeque(deque), m_normalizedQueryTerms, m_tokens, m_rawDocument);
+                                if (bestContext == null || auxContext.isBetterThan(bestContext))
+                                {
+                                    bestContext = auxContext;
+                                }
+                            }
                         }
                     }
                 }
