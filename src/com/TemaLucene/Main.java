@@ -36,7 +36,7 @@ public class Main {
                     String query = scanner.nextLine();
 
                     TopDocs topDocsResult = searcher.DoQuery(query);
-                    String results = searcher.InterpretTopDocs(topDocsResult);
+                    String results = searcher.InterpretTopDocs(topDocsResult, query);
                     if (results == "")
                     {
                         results = "No results found!";

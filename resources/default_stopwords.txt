@@ -180,6 +180,7 @@ noştri
 nostru
 nouă
 nu
+o
 opt
 ori
 oricând

@@ -70,14 +70,18 @@ public class RomanianSearcher
         return m_indexSearcher.search(query, 100);
     }
 
-    public String InterpretTopDocs(TopDocs topDocsResult) throws IOException {
+    public String InterpretTopDocs(TopDocs topDocsResult, String queryString) throws IOException, ParseException {
         String ret = "";
         for (int i = 0; i < topDocsResult.scoreDocs.length; ++i)
         {
             ScoreDoc scoreDoc = topDocsResult.scoreDocs[i];
             Document retrievedDoc = m_indexSearcher.doc(scoreDoc.doc);
+            RelevantContextTool relevantContextTool = new RelevantContextTool(queryString, retrievedDoc);
             ret += Integer.toString(i) + ". Path: " + retrievedDoc.get("path"); // here we can actually retrieve all the fields we saved
             ret += "\n" + scoreDoc.toString();
+            ret += "\nContext:\n";
+            ret += relevantContextTool.extractMostRelevantContext();
+            ret += "\n";
             ret += "\n";
         }
         return ret;
