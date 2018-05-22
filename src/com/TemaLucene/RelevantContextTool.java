@@ -101,11 +101,11 @@ public class RelevantContextTool {
                     }
                 }
 
-                if (countOfQueryTermsInThis < countOfQueryTermsInOther)
+                if (countOfQueryTermsInThis > countOfQueryTermsInOther)
                 {
                     return true;
                 }
-                else if (countOfQueryTermsInOther < countOfQueryTermsInThis)
+                else if (countOfQueryTermsInOther > countOfQueryTermsInThis)
                 {
                     return false;
                 }
@@ -172,6 +172,7 @@ public class RelevantContextTool {
                     if (current1.token.equals(token))
                     {
                         int totalAux = 0;
+                        index2 = 0;
                         for (TokenAndOffset current2 : mm_deque)
                         {
                             if (isInQueryTokens(current2.token))
