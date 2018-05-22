@@ -253,7 +253,7 @@ public class RelevantContextTool {
                 }
                 if (i == finalIntervals.size() - 1 && index != mm_rawDocument.length())
                 {
-                    ret += "!!!!";
+                    ret += " ... ";
                 }
             }
             return ret;
@@ -274,11 +274,12 @@ public class RelevantContextTool {
                         if (Intersects(intervals.get(i), intervals.get(j)))
                         {
                             Interval x = intervals.get(i);
-                            Interval y = intervals.get(i);
+                            Interval y = intervals.get(j);
                             int left = Math.min(x.left, y.left);
                             int right = Math.max(x.right, y.right);
                             newInterval = new Interval(left, right);
                             newInterval.boldPositions = x.boldPositions;
+
                             for (Interval boldPosition : y.boldPositions)
                             {
                                 newInterval.boldPositions.add(boldPosition);
@@ -509,7 +510,17 @@ public class RelevantContextTool {
 
         Context bestContext = null;
 
-        for (int i = 0; i < m_tokens.size(); ++i)
+        int i = 0;
+        for (i = 0; i < m_tokens.size(); ++i)
+        {
+            String token = m_tokens.get(i).token;
+            if (isInQueryTokens(token))
+            {
+                break;
+            }
+        }
+
+        for (; i < m_tokens.size(); ++i)
         {
             String token = m_tokens.get(i).token;
             deque.addLast(m_tokens.get(i));
@@ -521,7 +532,7 @@ public class RelevantContextTool {
                     queryTokensFound += 1;
                     if (queryTokensFound == m_maxQueryTokensFound)
                     {
-                        Context auxContext = new Context(deque, m_normalizedQueryTerms, m_tokens, m_rawDocument);
+                        Context auxContext = new Context(cloneDeque(deque), m_normalizedQueryTerms, m_tokens, m_rawDocument);
                         if (bestContext == null || auxContext.isBetterThan(bestContext))
                         {
                             bestContext = auxContext;
@@ -529,6 +540,7 @@ public class RelevantContextTool {
                         while(queryTokensFound == m_maxQueryTokensFound)
                         {
                             TokenAndOffset removedToken = deque.removeFirst();
+
                             if (freq.containsKey(removedToken.token))
                             {
                                 int aux = freq.get(removedToken.token);
@@ -539,10 +551,10 @@ public class RelevantContextTool {
                                 }
                                 else
                                 {
-                                    Context auxContext2 = new Context(deque, m_normalizedQueryTerms, m_tokens, m_rawDocument);
-                                    if (bestContext == null || auxContext2.isBetterThan(bestContext))
+                                    auxContext = new Context(cloneDeque(deque), m_normalizedQueryTerms, m_tokens, m_rawDocument);
+                                    if (bestContext == null || auxContext.isBetterThan(bestContext))
                                     {
-                                        bestContext = auxContext2;
+                                        bestContext = auxContext;
                                     }
                                 }
                             }
@@ -558,5 +570,15 @@ public class RelevantContextTool {
         }
 
         return bestContext.toString();
+    }
+
+    Deque<TokenAndOffset> cloneDeque(Deque<TokenAndOffset> deque)
+    {
+        Deque<TokenAndOffset> ret = new ArrayDeque<>();
+        for (TokenAndOffset aux : deque)
+        {
+            ret.addLast(aux);
+        }
+        return ret;
     }
 }
